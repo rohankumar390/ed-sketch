@@ -22,22 +22,42 @@ document.getElementById("upload").onclick = upLoad;
 function upLoad(e) {
     const canvas = document.querySelector(".canvas")
     console.log("uploading...")
-    var n = Math.random();
+    var n = Math.floor(Math.random() * 100)+1;
     html2canvas(canvas).then((c) => {
-        var theImg = c.toDataURL("image/png")
+        var theImg = c.toDataURL('image/png')
         console.log(theImg);
 
         // Create the file metadata
         const file = theImg
-        /** @type {any} */
+
+        var img = new Image();
+        // img.src = theImg;
+
+        
+        img.onload = function() {
+            var canva = document.createElement('canva');
+            canva.width = img.width;
+            canva.height = img.height;
+            var ctx = canva.getContext('2d');
+            // Draw the image onto the canvas
+            ctx.drawImage(img, 0, 0);
+          
+            // Convert the canvas to a PNG data URL
+            var convertedDataUrl = canva.toDataURL('image/png');
+          
+            // Log the converted data URL
+            console.log(convertedDataUrl);
+        };
+
         const metadata = {
-            contentType: 'image/jpeg'
+            contentType: 'image/png'
         };
 
         // Upload file and metadata to the object 'images/mountains.jpg'
+
         
-        const storageRef = ref(db, `files/${n}`);
-        const uploadTask = uploadBytesResumable(storageRef, theImg);
+        const storageRef = ref(db, `files/${n}.png`);
+        const uploadTask = uploadBytesResumable(storageRef, img, metadata);
 
         // Listen for state changes, errors, and completion of the upload.
         uploadTask.on('state_changed',
