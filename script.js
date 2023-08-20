@@ -1,3 +1,5 @@
+// const { default: html2canvas } = require("html2canvas");
+
 const eraser = document.querySelector("#eraser");
 const black = document.querySelector("#black");
 const rainbow = document.querySelector("#rainbow");
@@ -7,9 +9,11 @@ const canvas = document.querySelector(".canvas");
 const blackColor = "black";
 const whiteColor = "white";
 const randomColor = getRandomColor();
+
 let penColor = blackColor;
 let side = 16;
 let pendown = false;
+
 function screenshot() {
   const st = document.querySelector(".canvas");
   console.log("hiting");
@@ -25,7 +29,24 @@ function screenshot() {
   });
 }
 
+// function upLoad(){
+//     const canvas = document.querySelector(".canvas")
+//     console.log("uploading...")
+//     html2canvas(canvas).then((c) => {
+//         const theImg = c.toDataURL("image/png")
+//         const storageRef = db.ref().child("myimages");
+//         const uploadtask = storageRef.put(theImg);
+
+//         uploadtask.on("state_changed",(snapshot) => {
+//             console.log(snapshot)
+//         })
+//     })
+
+// }
+
 document.getElementById("bbt").onclick = screenshot;
+
+// document.getElementById("upload").onclick = upLoad;
 
 function makegrid(side) {
   canvas.style.gridTemplateColumns = `repeat(${side},1fr)`;
